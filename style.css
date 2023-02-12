@@ -1,11 +1,4 @@
 <style>
-     button:hover {
-        background-color: #3e8e41;
-        transform: scale(1.1);
-        transition: transform 0.3s ease-in-out;
-        }
-
-      
       body {
         display: flex;
         flex-direction: column;
@@ -53,6 +46,12 @@
         
       }
       
+      button:hover {
+        background-color: #3e8e41;
+        transform: scale(1.1);
+        transition: transform 0.3s ease-in-out;
+      }
+
       #resultado {
         font-size: 13px;
         font-weight: bold;
