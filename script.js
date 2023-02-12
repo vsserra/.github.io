@@ -88,7 +88,3 @@ document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
 document.getElementById("appBtn").addEventListener("click", function() {
     window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
   });
-
- window.onload = function() {
-    document.getElementById("modal").style.display = "block";
-      }
