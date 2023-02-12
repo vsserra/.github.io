@@ -1,8 +1,8 @@
 <style>
 
-button:hover {
-        background-color: #3e8e41;
-    }
+      button:hover {
+      background-color: #3e8e41;
+      }
 
       body {
         display: flex;
@@ -17,6 +17,26 @@ button:hover {
         background-color: #f2f2f2;
       }
       
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+      }
+
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        padding: 20px;
+      }
+
+
       h1 {
         font-size: 13px;
         font-weight: bold;
