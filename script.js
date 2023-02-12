@@ -86,5 +86,5 @@ document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
 });
 
 document.getElementById("appBtn").addEventListener("click", function() {
-    window.open("https://drive.google.com/file/d/1oeMAY4xi1np2DeNg9Y1o2zsxsMRfqG91", "_blank");
+    window.open("https://sorteadordejurados.online/sorteadordejurados.exe", "_blank");
   });
