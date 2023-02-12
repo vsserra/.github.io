@@ -84,3 +84,7 @@ document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
     nomesSorteadosArray = [];
     toggleDownloadBtn();
 });
+
+document.getElementById("appBtn").addEventListener("click", function() {
+    window.open("https://sorteiodejurados.online/sorteadordejurados.exe", "_blank");
+  });
