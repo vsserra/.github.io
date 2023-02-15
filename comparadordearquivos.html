@@ -159,12 +159,6 @@
       </fieldset>
     </form>
     <script>
-      window.addEventListener('load', function() {
-			var inputFiles = document.querySelectorAll('input[type="file"]');
-			for (var i = 0; i < inputFiles.length; i++) {
-				inputFiles[i].style.display = 'block';
-			}
-		});
       function compararArquivos() {
         const arquivo1 = document.getElementById("arquivo1").files[0];
         const arquivo2 = document.getElementById("arquivo2").files[0];
