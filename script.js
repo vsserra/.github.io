@@ -73,7 +73,7 @@
         a.click();
         });
 
-function irParaPagina2() {
+function irParaComparador() {
 			window.location.href = "comparadordearquivos.html";
 		}
 
