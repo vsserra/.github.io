@@ -73,6 +73,10 @@
         a.click();
         });
 
+function irParaPagina2() {
+			window.location.href = "comparadordearquivos.html";
+		}
+
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
     downloadBtn.style.display = "none";
