@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" sizes="16x16"  href="favicon.png">
+    <meta name="keywords" content="sorteio de jurados, convocar jurados, processo de seleção de jurados, serviço de sorteio de jurados, tribunal do júri, juri popular, juri nacional, convocar cidadãos para o júri, sorteio de cidadãos para o júri, convocar membros do júri">
+    <meta name="description" content="Utilize nosso sistema para realizar o sorteio de Jurados para o Tribunal do Júri!">
+    <meta name="author" content="Vinícius Serra - @vsserra">
+    <title>Comparador de Arquivos .CSV</title>
+    <style>
+      body {
+        background-image: url('bg.png');
+        background-size: cover;
+        background-repeat: repeat;       
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      form {
+        max-width: 600px;
+        text-align: center;
+        margin: 0 auto;
+        padding: 2rem;
+        border: 2px solid rgba(0, 255, 242, 0.568);
+        background-color: #00162b;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        border-radius: 2rem;
+
+      }
+      fieldset {
+        border: none;
+        margin-bottom: 1rem;
+      }
+      legend {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: white; 
+
+      }
+      input[type="file"] {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      button {
+        background-color: #008bba28;
+        border: none;
+        border-radius: 0.3rem;
+        color: white;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: rgba(0, 255, 242, 0.568);
+      }
+      a {
+        color: #008CBA;
+        text-decoration: none;
+        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.603);
+        font-size: 1.2rem;
+        display: block;
+        margin-top: 1rem;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .input-file-label {
+        position: relative;
+        display: inline-block;
+      }
+
+.input-file-label input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.input-file-label span {
+  display: inline-block;
+  background-color: #008bba28;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: background-color 0.3s
+}
+
+.input-file-label input[type="file"]:hover + span {
+  background-color: rgba(0, 255, 242, 0.568);
+}
+
+.input-file-label input[type="file"]:focus + span {
+  box-shadow: 0 0 0 3px rgba(0, 140, 186, 0.5);
+  outline: none;
+}
+    </style>
+  </head>
+  <body>
+    <h1>Comparador de Arquivos .CSV</h1>
+    <form>
+      <fieldset>
+        <legend>Jurados já sorteados:</legend>
+        <label for="arquivo1" class="input-file-label">
+          <input type="file" id="arquivo1" name="arquivo1" accept=".csv" onchange="atualizarNomeArquivo(this)">
+          <span>Selecionar</span>
+        </label>
+      </fieldset>      
+      <br>
+      <fieldset>
+        <legend>Remover os jurados já sorteados desta lista:</legend>
+        <label for="arquivo2" class="input-file-label">
+          <input type="file" id="arquivo2" name="arquivo2" accept=".csv" onchange="atualizarNomeArquivo(this)">
+          <span>Selecionar</span>
+        </label>
+      </fieldset>
+      <br>
+      <button type="button" onclick="compararArquivos()">Executar</button>
+      <br>
+      <br>
+      <fieldset>
+        <legend>Lista atualizada:</legend>
+        <a id="download" download="resultado.csv" style="display: none">Clique aqui e faça o download<br>da sua lista atualizada!</a>
+      </fieldset>
+    </form>
+    <script>
+      function compararArquivos() {
+        const arquivo1 = document.getElementById("arquivo1").files[0];
+        const arquivo2 = document.getElementById("arquivo2").files[0];
+        if (arquivo1 && arquivo2) {
+          const leitorArquivo1 = new FileReader();
+          const leitorArquivo2 = new FileReader();
+          leitorArquivo1.onload = function(e1) {
+            leitorArquivo2.onload = function(e2) {
+              const linhasArquivo1 = e1.target.result.split('\n');
+              const linhasArquivo2 = e2.target.result.split('\n');
+              const conjuntoLinhasArquivo1 = new Set(linhasArquivo1.map(linha => linha.trim()));
+              const resultado = linhasArquivo2.filter(linha => !conjuntoLinhasArquivo1.has(linha.trim())).join('\n');
+              const blob = new Blob([resultado], { type: 'text/csv' });
+              const url = URL.createObjectURL(blob);
+              const link = document.getElementById('download');
+              link.href = url;
+              link.style.display = 'block';
+            };
+            leitorArquivo2.readAsText(arquivo2);
+          };
+          leitorArquivo1.readAsText(arquivo1);
+        }
+      }
+    function atualizarNomeArquivo(input) {
+    const label = input.parentNode;
+    const nomeArquivo = input.value.split('\\').pop();
+    label.querySelector('span').textContent = nomeArquivo;
+    }
+    </script>
+  </body>
+</html>
