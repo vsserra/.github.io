@@ -13,21 +13,6 @@
         background-repeat: repeat;
       }         
 
-      @keyframes aparecer {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      * {
-        animation: aparecer 0.7s;
-      }    
-
       label[for="quantidade"] {
         margin-bottom: 10px;
         font-size: 13px;
