@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificar duplicatas em CSV</title>
+  <link rel="stylesheet" href="stylenomes.css">
+</head>
+<body>
+  <h1>Verificar duplicatas em CSV</h1>
+  <form>
+    <label for="csv-file">Selecione um arquivo CSV:</label>
+    <input type="file" id="csv-file">
+    <button type="button" onclick="checkForDuplicates()">Verificar duplicatas</button>
+  </form>
+  <div id="result"></div>
+  <div id="duplicates-count"></div>
+  <script src="scriptnomes.js"></script>
+</body>
+</html>
