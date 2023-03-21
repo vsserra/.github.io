@@ -83,6 +83,11 @@ function irParaComparador() {
 			window.location.href = "comparadordearquivos.html";
 		}
 
+function irParaVerificador() {
+			window.location.href = "verificadordenomes.html";
+		}
+
+
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
     downloadBtn.style.display = "none";
