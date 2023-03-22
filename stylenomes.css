@@ -1,13 +1,9 @@
 body {
-  background-image: url('bg.jpg');
-  background-size: cover;
-  background-repeat: repeat;       
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+  }
   
   h1 {
     text-align: center;
@@ -73,4 +69,4 @@ body {
       width: 50%;
       margin: 0 auto;
     }
-  }
+  }  
