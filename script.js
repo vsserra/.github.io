@@ -87,6 +87,9 @@ function irParaVerificador() {
 			window.location.href = "verificadordenomes.html";
 		}
 
+function irParaCronometro() {
+			window.location.href = "cronometrodebates.html";
+		}
 
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
