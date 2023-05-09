@@ -55,7 +55,7 @@ h2 {
 
 input:focus {
     outline: none;
-    box-shadow: 0 0 5px rgb(48, 48, 48);
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
 }
   
 
