@@ -19,6 +19,13 @@
                 <button onclick="startTimer('timer-mp')">Iniciar</button>
                 <button onclick="stopTimer('timer-mp')">Parar</button>
                 <button onclick="resetTimer('timer-mp', 'input-timer-mp')">Zerar</button>
+                <div class="tooltip">  
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-mp" onclick="toggleTimer('timer-mp', this)">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="tooltiptext">Clique para alternar entre contagem regressiva e progressiva</span>
+                </div>                
             </div>
             <div class="timer-box">
                 <h2>RÉPLICA MP</h2>
@@ -30,6 +37,13 @@
                 <button onclick="startTimer('timer-replica-mp')">Iniciar</button>
                 <button onclick="stopTimer('timer-replica-mp')">Parar</button>
                 <button onclick="resetTimer('timer-replica-mp', 'input-timer-replica-mp')">Zerar</button>
+                <div class="tooltip">  
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-replica-mp" onclick="toggleTimer('timer-replica-mp', this)">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="tooltiptext">Clique para alternar entre contagem regressiva e progressiva</span>
+                </div>
             </div>
         </div>
         <div class="column">
@@ -43,6 +57,13 @@
                 <button onclick="startTimer('timer-defesa')">Iniciar</button>
                 <button onclick="stopTimer('timer-defesa')">Parar</button>
                 <button onclick="resetTimer('timer-defesa', 'input-timer-defesa')">Zerar</button>
+                <div class="tooltip">  
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-defesa" onclick="toggleTimer('timer-defesa', this)">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="tooltiptext">Clique para alternar entre contagem regressiva e progressiva</span>
+                </div>           
             </div>
             <div class="timer-box">
                 <h2>TRÉPLICA DEFESA</h2>
@@ -54,6 +75,13 @@
                 <button onclick="startTimer('timer-treplica-defesa')">Iniciar</button>
                 <button onclick="stopTimer('timer-treplica-defesa')">Parar</button>
                 <button onclick="resetTimer('timer-treplica-defesa', 'input-timer-treplica-defesa')">Zerar</button>
+                <div class="tooltip">  
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-treplica-defesa" onclick="toggleTimer('timer-treplica-defesa', this)">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="tooltiptext">Clique para alternar entre contagem regressiva e progressiva</span>
+                </div>          
             </div>
         </div>
     </div>
