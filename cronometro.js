@@ -5,6 +5,13 @@ const timers = {
     "timer-treplica-defesa": null,
 };
 
+const timerModes = {
+    "timer-mp": "desc",
+    "timer-replica-mp": "desc",
+    "timer-defesa": "desc",
+    "timer-treplica-defesa": "desc",
+};
+
 function parseTime(time) {
     const [hours, minutes, seconds] = time.split(':').map(Number);
 
@@ -24,8 +31,8 @@ function startTimer(timerId) {
     const alertInputElement = timerElement.parentElement.querySelector('.input-alert');
 
     if (!timers[timerId]) {
-        if (timerElement.textContent || inputElement.value) {
-            let totalSeconds = parseTime(timerElement.textContent || inputElement.value);
+        if (timerElement.textContent || inputElement.value || timerModes[timerId] === "asc") {
+            let totalSeconds = timerModes[timerId] === "asc" ? 0 : parseTime(timerElement.textContent || inputElement.value);
             let alertTime = null;
             if (alertInputElement.value !== "") {
                 alertTime = parseTime(alertInputElement.value);
@@ -81,15 +88,32 @@ function setTimer(timerElement, totalSeconds, alertTime) {
             playSound();
         }
 
-        if (currentTime <= 0) {
-            clearInterval(timers[timerElement.id]);
-            timers[timerElement.id] = null;
-            return;
+        // Verificar o modo do cronômetro e incrementar ou decrementar o tempo de acordo
+        if (timerModes[timerElement.id] === "desc") {
+            if (currentTime <= 0) {
+                clearInterval(timers[timerElement.id]);
+                timers[timerElement.id] = null;
+                return;
+            }
+            currentTime--;
+        } else {
+            currentTime++;
         }
-
-        currentTime--;
     };
 
     timers[timerElement.id] = setInterval(updateTimer, 1000);
     updateTimer();
+}
+
+// Função para alternar entre os modos de contagem regressiva e progressiva
+function toggleTimer(timerId, toggleButtonId) {
+    timerModes[timerId] = timerModes[timerId] === "desc" ? "asc" : "desc";
+
+    // Alterar a classe CSS do botão para refletir o estado atual
+    const toggleButton = document.getElementById(toggleButtonId);
+    if (timerModes[timerId] === "asc") {
+        toggleButton.classList.add("active");
+    } else {
+        toggleButton.classList.remove("active");
+    }
 }
