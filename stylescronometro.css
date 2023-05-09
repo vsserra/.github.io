@@ -53,6 +53,12 @@ h2 {
     margin-right: 0;
 }
 
+input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+  
+
 input {
     display: block;
     width: 100%;
