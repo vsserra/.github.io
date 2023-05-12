@@ -1,40 +1,54 @@
-      const sortearBtn = document.getElementById("sortearBtn");
-      const fileInput = document.getElementById("fileInput");
-      const resultado = document.getElementById("resultado");
-      const nomesSorteados = document.getElementById("nomesSorteados");
-      const quantidadeInput = document.getElementById("quantidadeInput");
-      let nomes = [];
-      let nomesSorteadosArray = [];
+const sortearBtn = document.getElementById("sortearBtn");
+const fileInput = document.getElementById("fileInput");
+const resultado = document.getElementById("resultado");
+const nomesSorteados = document.getElementById("nomesSorteados");
+const quantidadeInput = document.getElementById("quantidadeInput");
+const keywordsInput = document.getElementById("keywordsInput");
+let nomes = [];
+let nomesSorteadosArray = [];
       
-      sortearBtn.addEventListener("click", () => {
-        let quantidade = parseInt(quantidadeInput.value) || 1;
-        if (isNaN(quantidade)) {
-          resultado.innerHTML = "POR FAVOR, INSIRA UMA QUANTIDADE VÁLIDA DE NOMES A SEREM SORTEADOS!";
-          return;
-        }
-      
-        if (nomes.length === 0 || fileInput.value === "") {
-          resultado.innerHTML = "TODOS OS NOMES FORAM SORTEADOS OU NENHUM ARQUIVO FOI SELECIONADO!";
-          return;
-        }
-        
-        resultado.innerHTML = "SORTEADO(A)";
-        let contador = 1; // Inicia o contador em 1
-        for (let i = 0; i < quantidade; i++) {
-          if (nomes.length === 0) {
+sortearBtn.addEventListener("click", () => {
+    let keywords = keywordsInput.value.split(",");
+    let quantidade = parseInt(quantidadeInput.value) || 1;
+
+    if (isNaN(quantidade)) {
+        resultado.innerHTML = "POR FAVOR, INSIRA UMA QUANTIDADE VÁLIDA DE NOMES A SEREM SORTEADOS!";
+        return;
+    }
+
+    if (nomes.length === 0 || fileInput.value === "") {
+        resultado.innerHTML = "TODOS OS NOMES FORAM SORTEADOS OU NENHUM ARQUIVO FOI SELECIONADO!";
+        return;
+    }
+
+    resultado.innerHTML = "SORTEADO(A)";
+    let contador = 1; 
+
+    for (let i = 0; i < quantidade; i++) {
+        if (nomes.length === 0) {
             break;
-          }
-          const sorteadoIndex = Math.floor(Math.random() * nomes.length);
-          const nomeSorteado = nomes[sorteadoIndex];
-          nomes.splice(sorteadoIndex, 1);
-          nomesSorteadosArray.push(nomeSorteado);
-          const item = document.createElement("li");
-          item.innerHTML = `${contador}. ${nomeSorteado}`; // Adiciona o número da contagem ao nome do jurado sorteado
-          resultado.appendChild(item);
-          contador++; // Incrementa o contador em 1
         }
-        updateNomesSorteados();
-      });      
+
+        let sorteadoIndex = Math.floor(Math.random() * nomes.length);
+        let nomeSorteado = nomes[sorteadoIndex];
+
+        // Verifica se o nome sorteado contém alguma das palavras-chave
+        if (keywords[0] !== "" && keywords.some(keyword => nomeSorteado.includes(keyword))) {
+            nomes.splice(sorteadoIndex, 1); // remove o nome da lista se contém palavra-chave
+            i--; // decrementa o contador para tentar novamente
+            continue;
+        }
+
+        nomes.splice(sorteadoIndex, 1);
+        nomesSorteadosArray.push(nomeSorteado);
+        const item = document.createElement("li");
+        item.innerHTML = `${contador}. ${nomeSorteado}`;
+        resultado.appendChild(item);
+        contador++;
+    }
+
+    updateNomesSorteados();
+});      
       
       fileInput.addEventListener("change", (e) => {
       let file = e.target.files[0];
@@ -113,15 +127,16 @@ function updateNomesSorteados() {
 }
 
 document.getElementById("reiniciarBtn").addEventListener("click", function() {
-  fileInput.value = "";
-  document.getElementById("nomesSorteados").innerHTML = "";
-  document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
-  nomesSorteadosArray = [];
-  document.getElementById("quantidadeInput").value = "";
-  toggleDownloadBtn();
+    fileInput.value = "";
+    document.getElementById("nomesSorteados").innerHTML = "";
+    document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
+    nomesSorteadosArray = [];
+    document.getElementById("quantidadeInput").value = "";
+    document.getElementById("keywordsInput").value = ""; // This line clears the keywords input
+    toggleDownloadBtn();
 });
 
 
 document.getElementById("appBtn").addEventListener("click", function() {
     window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
-  });
+});
