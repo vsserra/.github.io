@@ -1,0 +1,37 @@
+</public_html!DOCTYPE html>
+<html>
+  <head>
+    <link rel="icon" type="image/png" sizes="16x16"  href="favicon.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="sorteio de jurados, convocar jurados, processo de seleção de jurados, serviço de sorteio de jurados, tribunal do júri, juri popular, juri nacional, convocar cidadãos para o júri, sorteio de cidadãos para o júri, convocar membros do júri">
+    <meta name="description" content="Utilize nosso sistema para realizar o sorteio de Jurados para o Tribunal do Júri!">
+    <meta name="author" content="Vinícius Serra - @vsserra">
+    <title>Sorteador de Jurados</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  </head>
+  <body> 
+    <h1>SORTEADOR DE JURADOS</h1>
+    <input type="file" id="fileInput" value=""><br><br>
+    <label for="quantidade">Deseja sortear um número específico de jurados? Se sim, digite a quantidade:</label>
+    <input type="number" id="quantidadeInput">
+    <div style="display: flex;">
+        <button id="sortearBtn" style="width: 100px;" title="Clique aqui para sortear um jurado.">SORTEAR</button>
+        <button id="reiniciarBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para reiniciar o sorteio.">REINICIAR</button>
+        <button id="appBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para baixar nosso sorteador.">BAIXAR APP</button>
+	<button id="comparadorBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para acessar nosso comparador de arquivos." onclick="irParaComparador()">COMPARAR ARQUIVOS</button>
+        <button id="print-button" style="width: 100px; margin-left: 10px;" title="Clique aqui para imprimir o histórico de sorteados.">IMPRIMIR</button>
+	<button id="verificadorBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para verificar se há nomes repetidos na sua lista." onclick="irParaVerificador()">VERIFICAR NOMES</button>
+	<button id="cronometroBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para acessar o nosso cronômetro de debates." onclick="irParaCronometro()">CRONÔ-<br>METRO</button>
+    </div>
+    <br><br>
+    <h2 id="resultado">AGUARDANDO SORTEIO...</h2>
+    <br><br>
+    <h3>HISTÓRICO DE SORTEADOS:</h3>
+    <ol id="nomesSorteados"></ol>
+    <script src="script.js"></script>
+  </body>
+</html>
