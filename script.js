@@ -42,7 +42,7 @@ sortearBtn.addEventListener("click", () => {
         nomes.splice(sorteadoIndex, 1);
         nomesSorteadosArray.push(nomeSorteado);
         const item = document.createElement("li");
-        item.innerHTML = `${contador}. ${nomeSorteado}`;
+        item.innerHTML = nomeSorteado;
         resultado.appendChild(item);
         contador++;
     }
@@ -72,6 +72,8 @@ sortearBtn.addEventListener("click", () => {
       const downloadBtn = document.createElement("button");
       downloadBtn.innerHTML = "BAIXAR HISTÓRICO DE SORTEADOS";
       downloadBtn.title = "Clique aqui para baixar o histórico de sorteados no formato de planilha.";
+      downloadBtn.style.display = "block";
+      downloadBtn.style.margin = "0 auto";
       document.body.appendChild(downloadBtn);
       downloadBtn.addEventListener("click", () => {
         if (nomesSorteadosArray.length === 0) {
@@ -124,6 +126,20 @@ function updateNomesSorteados() {
   }
   toggleDownloadBtn();
   nomesSorteados.scrollTop = nomesSorteados.scrollHeight;
+
+  // Adicionar ou remover a classe "hidden" para exibir ou ocultar o elemento <ol>
+  if (nomesSorteadosArray.length === 0) {
+    nomesSorteados.classList.add("hidden");
+  } else {
+    nomesSorteados.classList.remove("hidden");
+  }
+  // Adicionar ou remover a classe "hidden" para exibir ou ocultar o elemento <h3>
+  const historicoTitle = document.getElementById("historicoTitle");
+  if (nomesSorteadosArray.length === 0) {
+    historicoTitle.classList.add("hidden");
+  } else {
+    historicoTitle.classList.remove("hidden");
+  }
 }
 
 document.getElementById("reiniciarBtn").addEventListener("click", function() {
@@ -134,8 +150,9 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
     document.getElementById("quantidadeInput").value = "";
     document.getElementById("keywordsInput").value = ""; // This line clears the keywords input
     toggleDownloadBtn();
+    document.getElementById("nomesSorteados").classList.add("hidden");
+    document.getElementById("historicoTitle").classList.add("hidden");
 });
-
 
 document.getElementById("appBtn").addEventListener("click", function() {
     window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
