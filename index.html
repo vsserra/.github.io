@@ -1,39 +1,48 @@
-</public_html!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
-    <link rel="icon" type="image/png" sizes="16x16"  href="favicon.png">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
-    <meta name="keywords" content="sorteio de jurados, convocar jurados, processo de seleção de jurados, serviço de sorteio de jurados, tribunal do júri, juri popular, juri nacional, convocar cidadãos para o júri, sorteio de cidadãos para o júri, convocar membros do júri">
-    <meta name="description" content="Utilize nosso sistema para realizar o sorteio de Jurados para o Tribunal do Júri!">
-    <meta name="author" content="Vinícius Serra - @vsserra">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sorteador de Jurados</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
   </head>
-  <body> 
-    <h1>SORTEADOR DE JURADOS</h1>
-    <input type="file" id="fileInput" value=""><br><br>
-    <label for="quantidade">Deseja sortear um número específico de jurados? Se sim, digite a quantidade:</label>
-    <input type="number" id="quantidadeInput">
-    <label for="keywords">Desejar excluir alguma profissão entre os sorteados? Se sim, digite a profissão. Se for mais de uma, separe por vírgula:</label>
-    <input type="text" id="keywordsInput">
-    <div style="display: flex;">
-        <button id="sortearBtn" style="width: 100px;" title="Clique aqui para sortear um jurado.">SORTEAR</button>
-        <button id="reiniciarBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para reiniciar o sorteio.">REINICIAR</button>
-        <button id="appBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para baixar nosso sorteador.">BAIXAR APP</button>
-	<button id="comparadorBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para acessar nosso comparador de arquivos." onclick="irParaComparador()">COMPARAR ARQUIVOS</button>
-        <button id="print-button" style="width: 100px; margin-left: 10px;" title="Clique aqui para imprimir o histórico de sorteados.">IMPRIMIR</button>
-	<button id="verificadorBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para verificar se há nomes repetidos na sua lista." onclick="irParaVerificador()">VERIFICAR NOMES</button>
-	<button id="cronometroBtn" style="width: 100px; margin-left: 10px;" title="Clique aqui para acessar o nosso cronômetro de debates." onclick="irParaCronometro()">CRONÔ-<br>METRO</button>
-    </div>
-    <br><br>
-    <h2 id="resultado">AGUARDANDO SORTEIO...</h2>
-    <br><br>
-    <h3>HISTÓRICO DE SORTEADOS:</h3>
-    <ol id="nomesSorteados"></ol>
+  <body>
+    <header>
+      <img src="logo.png" alt="Sorteador de Jurados">
+    </header>
+    <main>
+      <div class="container">
+        <div class="input-section">
+          <label for="fileInput">Selecionar arquivo:</label>
+          <input type="file" id="fileInput">
+        </div>
+        <div class="input-section">
+          <label for="quantidadeInput">Sortear um número específico de jurados:</label>
+          <input type="number" id="quantidadeInput">
+        </div>
+        <div class="input-section">
+          <label for="keywordsInput">Excluir profissões entre os sorteados, separadas por vírgulas:</label>
+          <input type="text" id="keywordsInput">
+        </div>
+        <div class="button-section">
+          <button id="sortearBtn">SORTEAR</button>
+          <button id="reiniciarBtn">REINICIAR</button>
+          <button id="appBtn">BAIXAR APP</button>
+          <button id="comparadorBtn" onclick="irParaComparador()">COMPARAR ARQUIVOS</button>
+          <button id="print-button">IMPRIMIR</button>
+          <button id="verificadorBtn" onclick="irParaVerificador()">VERIFICAR NOMES</button>
+          <button id="cronometroBtn" onclick="irParaCronometro()">CRONÔMETRO</button>
+        </div>
+        <div class="result-section">
+          <h2 id="resultado">AGUARDANDO SORTEIO...</h2>
+          <h3 id="historicoTitle" class="hidden">HISTÓRICO DE SORTEADOS:</h3>
+          <ol id="nomesSorteados" class="hidden"></ol>
+        </div>
+      </div>
+    </main>
     <script src="script.js"></script>
+    <footer>
+      <p>Desenvolvido por Vinícius Serra - @vsserra</p>
+    </footer>
   </body>
 </html>
