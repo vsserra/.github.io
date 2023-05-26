@@ -74,6 +74,7 @@ sortearBtn.addEventListener("click", () => {
       downloadBtn.title = "Clique aqui para baixar o histórico de sorteados no formato de planilha.";
       downloadBtn.style.display = "block";
       downloadBtn.style.margin = "0 auto";
+      downloadBtn.style.marginBottom = "20px";
       document.body.appendChild(downloadBtn);
       downloadBtn.addEventListener("click", () => {
         if (nomesSorteadosArray.length === 0) {
