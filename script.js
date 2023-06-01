@@ -108,6 +108,10 @@ function irParaCronometro() {
 			window.location.href = "cronometrodebates.html";
 		}
 
+function irParaWpp() {
+			window.location.href = "wpp.html";
+		}
+
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
     downloadBtn.style.display = "none";
