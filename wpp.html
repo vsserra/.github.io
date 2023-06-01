@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerar Link WhatsApp</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gerar Link WhatsApp</h1>
+
+    <form id="whatsapp-form">
+      <div class="form-group">
+        <label for="phone">Número de telefone:</label>
+        <div class="phone-input">
+          <input type="text" id="country-code" value="+55" readonly>
+          <input type="text" id="phone-number" placeholder="(00) 9 0000-0000">
+        </div>
+      </div>      
+
+      <div class="form-group">
+        <label for="message">Mensagem:</label>
+        <textarea id="message" placeholder="Digite a mensagem"></textarea>
+      </div>
+
+      <div class="button-wrapper">
+        <button type="submit">Gerar Link</button>
+      </div>     
+    </form>
+
+    <div class="result-wrapper">
+      <p class="result-label hidden">Link gerado:</p>
+      <a href="#" id="result-link" class="result-link"></a>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
