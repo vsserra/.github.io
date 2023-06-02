@@ -147,7 +147,7 @@
   }
   
   /* Media Query para dispositivos móveis */
-@media (max-width: 768px) {
+@media (max-width: 500px) {
   .container {
     margin-top: 30px;
     padding: 10px;
