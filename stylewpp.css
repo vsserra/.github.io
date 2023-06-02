@@ -147,7 +147,7 @@
   }
   
   /* Media Query para dispositivos móveis */
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .container {
     margin-top: 30px;
     padding: 10px;
@@ -179,5 +179,10 @@
   .result-link {
     font-size: 14px;
     margin-bottom: 5px;
+  }
+    
+  body {
+    transform: scale(0.8); /* Reduz o tamanho do conteúdo em 80% */
+    transform-origin: top; /* Define o ponto de origem da transformação */
   }
 }
