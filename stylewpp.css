@@ -150,7 +150,7 @@
   /* Media Query para dispositivos móveis */
 @media (max-width: 768px) {
   .container {
-    margin-top: 220px;
+    margin-top: 205px;
     padding: 10px;
     zoom: 80%;  
   }
