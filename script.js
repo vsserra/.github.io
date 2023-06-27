@@ -3,12 +3,10 @@ const fileInput = document.getElementById("fileInput");
 const resultado = document.getElementById("resultado");
 const nomesSorteados = document.getElementById("nomesSorteados");
 const quantidadeInput = document.getElementById("quantidadeInput");
-const keywordsInput = document.getElementById("keywordsInput");
 let nomes = [];
 let nomesSorteadosArray = [];
       
 sortearBtn.addEventListener("click", () => {
-    let keywords = keywordsInput.value.split(",");
     let quantidade = parseInt(quantidadeInput.value) || 1;
 
     if (isNaN(quantidade)) {
@@ -31,13 +29,6 @@ sortearBtn.addEventListener("click", () => {
 
         let sorteadoIndex = Math.floor(Math.random() * nomes.length);
         let nomeSorteado = nomes[sorteadoIndex];
-
-        // Verifica se o nome sorteado contém alguma das palavras-chave
-        if (keywords[0] !== "" && keywords.some(keyword => nomeSorteado.includes(keyword))) {
-            nomes.splice(sorteadoIndex, 1); // remove o nome da lista se contém palavra-chave
-            i--; // decrementa o contador para tentar novamente
-            continue;
-        }
 
         nomes.splice(sorteadoIndex, 1);
         nomesSorteadosArray.push(nomeSorteado);
@@ -153,7 +144,6 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
     document.getElementById("resultado").innerHTML = "AGUARDANDO SORTEIO...";
     nomesSorteadosArray = [];
     document.getElementById("quantidadeInput").value = "";
-    document.getElementById("keywordsInput").value = ""; // This line clears the keywords input
     toggleDownloadBtn();
     document.getElementById("nomesSorteados").classList.add("hidden");
     document.getElementById("historicoTitle").classList.add("hidden");
