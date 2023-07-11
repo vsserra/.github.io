@@ -104,7 +104,7 @@ function irParaWpp() {
 		}
 
 function irCalc() {
-			window.location.href = "https://chrome.google.com/webstore/detail/calculadora-penal/bbombpbliidopehhicjgbjgldadbfjai?hl=pt-br";
+			href = "https://chrome.google.com/webstore/detail/calculadora-penal/bbombpbliidopehhicjgbjgldadbfjai?hl=pt-br";
 		}
 
 function toggleDownloadBtn() {
