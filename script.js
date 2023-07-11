@@ -103,6 +103,10 @@ function irParaWpp() {
 			window.location.href = "wpp.html";
 		}
 
+function irCalc() {
+			window.location.href = "https://chrome.google.com/webstore/detail/calculadora-penal/bbombpbliidopehhicjgbjgldadbfjai?hl=pt-br";
+		}
+
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
     downloadBtn.style.display = "none";
