@@ -152,3 +152,20 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
 document.getElementById("appBtn").addEventListener("click", function() {
     window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
 });
+
+window.addEventListener("load", function() {
+  const popup = document.getElementById("popup");
+  const closePopupBtn = document.getElementById("close-popup");
+
+  popup.classList.add("popup-appear");
+
+  closePopupBtn.addEventListener("click", function() {
+    popup.classList.remove("popup-appear");
+    popup.classList.add("popup-disappear");
+
+    // Aguarda o término da animação e remove o elemento do DOM
+    setTimeout(function() {
+      popup.parentNode.removeChild(popup);
+    }, 300);
+  });
+});
