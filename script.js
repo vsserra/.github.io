@@ -153,10 +153,6 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
     document.getElementById("historicoTitle").classList.add("hidden");
 });
 
-document.getElementById("appBtn").addEventListener("click", function() {
-    window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
-});
-
 window.addEventListener("load", function() {
   const popup = document.getElementById("popup");
   const closePopupBtn = document.getElementById("close-popup");
