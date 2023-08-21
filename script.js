@@ -85,7 +85,8 @@ sortearBtn.addEventListener("click", () => {
         printButton.addEventListener("click", () => {
           window.print();
         });
-
+        
+        
 function irParaComparador() {
 			window.location.href = "comparadordearquivos.html";
 		}
