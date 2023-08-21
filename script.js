@@ -85,10 +85,6 @@ sortearBtn.addEventListener("click", () => {
         printButton.addEventListener("click", () => {
           window.print();
         });
-
-document.getElementById("appBtn").addEventListener("click", function() {
-    window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
-});
         
 function irParaComparador() {
 			window.location.href = "comparadordearquivos.html";
@@ -154,6 +150,10 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
     toggleDownloadBtn();
     document.getElementById("nomesSorteados").classList.add("hidden");
     document.getElementById("historicoTitle").classList.add("hidden");
+});
+
+document.getElementById("appBtn").addEventListener("click", function() {
+    window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
 });
 
 window.addEventListener("load", function() {
