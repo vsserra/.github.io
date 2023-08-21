@@ -86,11 +86,6 @@ sortearBtn.addEventListener("click", () => {
           window.print();
         });
 
-document.getElementById("appBtn").addEventListener("click", function() {
-    window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
-});
-
-
 function irParaComparador() {
 			window.location.href = "comparadordearquivos.html";
 		}
