@@ -81,32 +81,6 @@ sortearBtn.addEventListener("click", () => {
         a.click();
         });
 
-        const printButton = document.getElementById("print-button");
-        printButton.addEventListener("click", () => {
-          window.print();
-        });
-        
-        
-function irParaComparador() {
-			window.location.href = "comparadordearquivos.html";
-		}
-
-function irParaVerificador() {
-			window.location.href = "verificadordenomes.html";
-		}
-
-function irParaCronometro() {
-			window.location.href = "cronometrodebates.html";
-		}
-
-function irParaWpp() {
-			window.location.href = "wpp.html";
-		}
-
-function irParaCalc() {
-			window.location.href = "https://chrome.google.com/webstore/detail/calculadora-penal/bbombpbliidopehhicjgbjgldadbfjai?hl=pt-br";
-		}
-
 function toggleDownloadBtn() {
   if (nomesSorteadosArray.length === 0) {
     downloadBtn.style.display = "none";
@@ -151,10 +125,6 @@ document.getElementById("reiniciarBtn").addEventListener("click", function() {
     toggleDownloadBtn();
     document.getElementById("nomesSorteados").classList.add("hidden");
     document.getElementById("historicoTitle").classList.add("hidden");
-});
-
-document.getElementById("appBtn").addEventListener("click", function() {
-    window.open("https://sorteiodejurados.online/sorteadordejurados.rar", "_blank");
 });
 
 window.addEventListener("load", function() {
