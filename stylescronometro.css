@@ -188,3 +188,16 @@ button:last-child {
     visibility: visible;
     opacity: 1;
 }
+
+.clock-box h2{
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 16px;
+}
+
+#current-time, #end-time {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: none;
+    color: #2c3e50;
+}
