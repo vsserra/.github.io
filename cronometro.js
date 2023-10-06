@@ -52,7 +52,7 @@ function stopTimer(timerId) {
     timers[timerId] = null;
 }
 
-function resetTimer(timerId, inputElementId) {
+function resetTimer(timerId, inputElementId, endTimeId) {
     const confirmation = confirm('Tem certeza de que deseja zerar a contagem?');
     if (!confirmation) {
         return;
@@ -65,7 +65,8 @@ function resetTimer(timerId, inputElementId) {
     const inputElement = document.getElementById(inputElementId);
     inputElement.value = '';
     const alertInputElement = timerElement.parentElement.querySelector('.input-alert');
-    alertInputElement.value = ''; // linha adicionada para zerar o campo "alerta"
+    alertInputElement.value = ''; 
+    document.getElementById(endTimeId).textContent = ''; // Limpa a previsão de término
 }
 
 function playSound() {
@@ -116,4 +117,49 @@ function toggleTimer(timerId, toggleButtonId) {
     } else {
         toggleButton.classList.remove("active");
     }
+}
+
+// ... (parte do seu JS existente) ...
+
+function updateCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+setInterval(updateCurrentTime, 1000);
+updateCurrentTime();
+
+function startTimer(timerId, endTimeId) {
+    const timerElement = document.getElementById(timerId);
+    const inputElementId = `input-${timerId}`;
+    const inputElement = document.getElementById(inputElementId);
+    const alertInputElement = timerElement.parentElement.querySelector('.input-alert');
+
+    if (!timers[timerId]) {
+        if (timerElement.textContent || inputElement.value || timerModes[timerId] === "asc") {
+            let totalSeconds = timerModes[timerId] === "asc" ? 0 : parseTime(timerElement.textContent || inputElement.value);
+            let alertTime = null;
+            if (alertInputElement.value !== "") {
+                alertTime = parseTime(alertInputElement.value);
+            }
+
+            if (totalSeconds !== null) {
+                setTimer(timerElement, totalSeconds, alertTime);
+                updateEndTime(totalSeconds, endTimeId);  // Atualizando a previsão de término aqui
+            }
+        } else {
+            alert('Nenhum tempo fornecido. Por favor, insira um tempo no formato hh:mm:ss.');
+        }
+    }
+}
+
+function updateEndTime(durationSeconds, elementId) {
+    const now = new Date();
+    const endTime = new Date(now.getTime() + durationSeconds * 1000);
+    const hours = endTime.getHours().toString().padStart(2, '0');
+    const minutes = endTime.getMinutes().toString().padStart(2, '0');
+    document.getElementById(elementId).textContent = `${hours}:${minutes}`;
 }
