@@ -1,0 +1,227 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1, h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#sorteadoTitulo {
+    font-size: 16px; /* Tamanho menor */
+    color: #333; /* Mesma cor do texto principal */
+    text-align: center; /* Centralizado */
+    margin-bottom: 10px; /* Espaço abaixo */
+}
+
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.input-group input[type="file"] {
+    display: none;
+}
+
+.input-group label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px; /* Ajuste conforme necessário */
+}
+
+.input-group label:hover {
+    background-color: #0056b3;
+}
+
+.input-group input[type="number"] {
+    padding: 10px;
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+    font-size: 14px;
+    flex: 1;
+    transition: border-color 0.3s ease;
+}
+
+.input-group input[type="number"]:focus {
+    border-color: #b6b6b6;
+    outline: none;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+button:hover:enabled {
+    background-color: #0056b3;
+}
+
+#sorteadoContainer {
+    margin-top: 10px;
+}
+
+#sorteado {
+    background-color: #e9ecef;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #dfdfdf;
+    height: 60px; /* Altura fixa */
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+/* Estilos para a barra de rolagem */
+::-webkit-scrollbar {
+    width: 12px; /* Largura da barra de rolagem */
+    height: 12px; /* Altura da barra de rolagem horizontal */
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Cor do fundo da barra de rolagem */
+    border-radius: 10px; /* Cantos arredondados do fundo */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888; /* Cor da barra de rolagem */
+    border-radius: 10px; /* Cantos arredondados da barra */
+    border: 3px solid #f1f1f1; /* Espaço ao redor da barra para efeito de cantos arredondados */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Cor da barra ao passar o mouse */
+}
+
+.historico-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.historico-header h2 {
+    margin: 0;
+}
+
+.historico-header button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.historico-header button:hover {
+    background-color: #0056b3;
+}
+
+#historicoContainer {
+    max-height: 100px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border: 1px solid #dfdfdf;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+#downloadHistoricoButton {
+    margin-top: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: #e9ecef;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 100%;
+    word-wrap: break-word;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
