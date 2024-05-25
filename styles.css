@@ -117,7 +117,6 @@ button:hover:enabled {
     border-radius: 10px;
     border: 1px solid #dfdfdf;
     height: 60px; /* Altura fixa */
-    display: flex;
     justify-content: center;
     overflow-y: auto;
     text-overflow: ellipsis;
