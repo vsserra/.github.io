@@ -1,14 +1,17 @@
 document.addEventListener('DOMContentLoaded', function() {
     if (window.netlifyIdentity) {
         window.netlifyIdentity.on('init', user => {
+            console.log('Netlify Identity initialized', user);
             handleUserState(user);
         });
 
         window.netlifyIdentity.on('login', user => {
+            console.log('User logged in', user);
             handleUserState(user);
         });
 
         window.netlifyIdentity.on('logout', () => {
+            console.log('User logged out');
             handleUserState(null);
         });
 
