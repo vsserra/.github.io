@@ -1,29 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
     if (window.netlifyIdentity) {
+        // Adiciona um evento para verificar se o usuário está logado
         window.netlifyIdentity.on('init', user => {
-            if (!user) {
-                const params = new URLSearchParams(window.location.search);
-                const token = params.get('token');
-                if (token) {
-                    window.netlifyIdentity.confirm(token, true)
-                        .then(() => {
-                            window.location.href = '/';
-                        })
-                        .catch(error => {
-                            console.error('Error confirming user:', error);
-                        });
-                } else {
-                    window.netlifyIdentity.open();
-                }
-            } else {
+            if (user) {
                 showAppContent();
+            } else {
+                window.netlifyIdentity.open();
             }
         });
 
+        // Evento ao fazer login
         window.netlifyIdentity.on('login', user => {
             showAppContent();
         });
 
+        // Evento ao fazer logout
         window.netlifyIdentity.on('logout', () => {
             hideAppContent();
             window.netlifyIdentity.open();
