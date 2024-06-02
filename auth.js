@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         window.netlifyIdentity.init();
+
+        const loginButton = document.getElementById('loginButton');
+        if (loginButton) {
+            loginButton.addEventListener('click', () => {
+                window.netlifyIdentity.open();
+            });
+        }
     }
 
     function handleUserState(user) {
@@ -27,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             showAppContent();
         } else {
             hideAppContent();
-            window.netlifyIdentity.open();
         }
     }
 
