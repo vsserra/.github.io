@@ -1,30 +1,30 @@
 document.addEventListener('DOMContentLoaded', function() {
     if (window.netlifyIdentity) {
-        // Adiciona um evento para verificar se o usuário está logado
         window.netlifyIdentity.on('init', user => {
-            if (user) {
-                showAppContent();
-            } else {
-                window.netlifyIdentity.open();
-            }
+            handleUserState(user);
         });
 
-        // Evento ao fazer login
         window.netlifyIdentity.on('login', user => {
-            showAppContent();
+            handleUserState(user);
         });
 
-        // Evento ao fazer logout
         window.netlifyIdentity.on('logout', () => {
+            handleUserState(null);
+        });
+
+        window.netlifyIdentity.on('error', err => {
+            console.error('Netlify Identity error', err);
+        });
+
+        window.netlifyIdentity.init();
+    }
+
+    function handleUserState(user) {
+        if (user) {
+            showAppContent();
+        } else {
             hideAppContent();
             window.netlifyIdentity.open();
-        });
-
-        const loginButton = document.getElementById('loginButton');
-        if (loginButton) {
-            loginButton.addEventListener('click', () => {
-                window.netlifyIdentity.open();
-            });
         }
     }
 
