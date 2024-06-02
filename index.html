@@ -17,32 +17,37 @@
 
         gtag('config', 'G-YQTZM54TLD');
     </script>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Sorteador de Jurados</h1>
-        <div class="input-group" id="inputGroup"> <!-- Adicionado id -->
-            <label for="fileInput" id="fileLabel">Selecionar arquivo CSV</label>
-            <input type="file" id="fileInput" accept=".csv" aria-label="Selecione um arquivo CSV com a lista de jurados">
-            <input type="number" id="quantidadeInput" placeholder="Qtd" min="1" aria-label="Quantidade de jurados a sortear">
+        <button id="loginButton">Login</button>
+        <div id="appContent" class="hidden">
+            <div class="input-group" id="inputGroup">
+                <label for="fileInput" id="fileLabel">Selecionar arquivo CSV</label>
+                <input type="file" id="fileInput" accept=".csv" aria-label="Selecione um arquivo CSV com a lista de jurados">
+                <input type="number" id="quantidadeInput" placeholder="Qtd" min="1" aria-label="Quantidade de jurados a sortear">
+            </div>
+            <div class="button-group">
+                <button id="sorteioButton" disabled>Sortear</button>
+                <button id="reiniciarButton" class="hidden">Reiniciar</button>
+            </div>
+            <h3 id="sorteadoTitulo" class="hidden">Sorteado(s):</h3>
+            <div id="sorteadoContainer" class="hidden">
+                <p id="sorteado" aria-live="polite"></p>
+            </div>
+            <div class="historico-header hidden" id="historicoHeader">
+                <h2 id="historicoTitulo">Histórico de Sorteados</h2>
+                <button id="toggleHistoricoButton" aria-label="Toggle Histórico">+</button>
+            </div>
+            <div id="historicoContainer" class="hidden">
+                <ul id="historicoList"></ul>
+            </div>
+            <button id="downloadHistoricoButton" class="hidden" disabled>Baixar Histórico</button>
         </div>
-        <div class="button-group">
-            <button id="sorteioButton" disabled>Sortear</button>
-            <button id="reiniciarButton" class="hidden">Reiniciar</button>
-        </div>
-        <h3 id="sorteadoTitulo" class="hidden">Sorteado(s):</h3> <!-- Novo elemento -->
-        <div id="sorteadoContainer" class="hidden">
-            <p id="sorteado" aria-live="polite"></p>
-        </div>
-        <div class="historico-header hidden" id="historicoHeader">
-            <h2 id="historicoTitulo">Histórico de Sorteados</h2>
-            <button id="toggleHistoricoButton" aria-label="Toggle Histórico">+</button>
-        </div>
-        <div id="historicoContainer" class="hidden">
-            <ul id="historicoList"></ul>
-        </div>
-        <button id="downloadHistoricoButton" class="hidden" disabled>Baixar Histórico</button>
     </div>
     <script src="script.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
