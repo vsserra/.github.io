@@ -15,6 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const historicoHeader = document.getElementById('historicoHeader');
     const inputGroup = document.getElementById('inputGroup'); // Novo elemento
 
+    // Criação do Popup para mostrar as informações do arquivo
+    const popupOverlay = document.createElement('div');
+    const popupContent = document.createElement('div');
+    const popupCloseButton = document.createElement('button');
+
+    popupOverlay.classList.add('popup-overlay');
+    popupContent.classList.add('popup-content');
+    popupCloseButton.textContent = 'Fechar';
+    popupCloseButton.classList.add('popup-close');
+
+    popupOverlay.appendChild(popupContent);
+    popupContent.appendChild(popupCloseButton);
+    document.body.appendChild(popupOverlay);
+
+    popupOverlay.style.display = 'none';
+
+    // Evento para fechar o Popup
+    popupCloseButton.addEventListener('click', () => {
+        popupOverlay.style.display = 'none';
+    });
+
     let jurados = [];
     let historico = [];
     let juradosIniciais = [];
@@ -29,6 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 juradosIniciais = [...jurados];
                 sorteioButton.disabled = jurados.length === 0;
                 fileLabel.textContent = file.name.length > 20 ? file.name.slice(0, 17) + '...' : file.name;
+
+                if (jurados.length > 0) {
+                    displayPopup(jurados);
+                }
             };
             reader.readAsText(file);
         } else {
@@ -38,6 +63,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fileInput.addEventListener('change', handleFileChange);
+
+    function displayPopup(jurados) {
+        popupContent.innerHTML = '<h2>Conferência da Urna</h2>';
+        popupContent.appendChild(popupCloseButton);
+
+        // Estatísticas gerais
+        const statsContainer = document.createElement('div');
+        statsContainer.classList.add('stats-container');
+        const totalJurados = document.createElement('p');
+        totalJurados.textContent = `Total de Jurados: ${jurados.length}`;
+        statsContainer.appendChild(totalJurados);
+        popupContent.appendChild(statsContainer);
+
+        // Tabela dos jurados
+        const tableContainer = document.createElement('div');
+        tableContainer.classList.add('table-container');
+        const table = document.createElement('table');
+        table.classList.add('styled-table');
+
+        const headerRow = document.createElement('tr');
+        const thIndex = document.createElement('th');
+        const thName = document.createElement('th');
+
+        thIndex.textContent = 'Nº';
+        thName.textContent = 'Nome do Jurado';
+        headerRow.appendChild(thIndex);
+        headerRow.appendChild(thName);
+        table.appendChild(headerRow);
+
+        jurados.forEach((jurado, index) => {
+            const row = document.createElement('tr');
+            const cellIndex = document.createElement('td');
+            const cellName = document.createElement('td');
+
+            cellIndex.textContent = index + 1;
+            cellName.textContent = jurado;
+
+            row.appendChild(cellIndex);
+            row.appendChild(cellName);
+            table.appendChild(row);
+        });
+
+        tableContainer.appendChild(table);
+        popupContent.appendChild(tableContainer);
+
+        popupOverlay.style.display = 'flex';
+    }
 
     sorteioButton.addEventListener('click', () => {
         const quantidade = parseInt(quantidadeInput.value) || 1;
@@ -130,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     downloadHistoricoButton.addEventListener('click', () => {
-        const csvContent = "\uFEFF" + historico.join("\n"); // Adicionado BOM para UTF-8
+        const csvContent = "﻿" + historico.join("\n"); // Adicionado BOM para UTF-8
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
