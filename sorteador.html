@@ -7,21 +7,17 @@
     <meta name="description" content="Utilize nosso sorteador de jurados online para selecionar jurados de forma aleatória e justa a partir de uma lista CSV.">
     <meta name="keywords" content="sorteador de jurados, sorteio de jurados, ferramenta online, jurados, sorteio, CSV">
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" sizes="16x16"  href="favicon.png">
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YQTZM54TLD"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-YQTZM54TLD');
-    </script>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
 </head>
-<body>
+<body>    
+    <div class="background-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>    
     <div class="container">
         <h1>Sorteador de Jurados</h1>
-        <div class="input-group" id="inputGroup"> <!-- Adicionado id -->
+        <div class="input-group" id="inputGroup">
             <label for="fileInput" id="fileLabel">Selecionar arquivo CSV</label>
             <input type="file" id="fileInput" accept=".csv" aria-label="Selecione um arquivo CSV com a lista de jurados">
             <input type="number" id="quantidadeInput" placeholder="Qtd" min="1" aria-label="Quantidade de jurados a sortear">
@@ -30,7 +26,7 @@
             <button id="sorteioButton" disabled>Sortear</button>
             <button id="reiniciarButton" class="hidden">Reiniciar</button>
         </div>
-        <h3 id="sorteadoTitulo" class="hidden">Sorteado(s):</h3> <!-- Novo elemento -->
+        <h3 id="sorteadoTitulo" class="hidden">Sorteado(s):</h3>
         <div id="sorteadoContainer" class="hidden">
             <p id="sorteado" aria-live="polite"></p>
         </div>
@@ -43,6 +39,62 @@
         </div>
         <button id="downloadHistoricoButton" class="hidden" disabled>Baixar Histórico</button>
     </div>
+
+    <!-- Modal para selecionar o formato de download -->
+    <div id="formatSelectModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Escolha o formato do arquivo</h2>
+            <p>Como você gostaria de baixar o histórico do sorteio?</p>
+            <div class="modal-buttons">
+                <button id="downloadCsvButton">Baixar em CSV</button>
+                <button id="downloadPdfButton">Baixar em PDF</button>
+            </div>
+            <button id="closeFormatModal" class="close-button">Cancelar</button>
+        </div>
+    </div>
+
+    <!-- Modal para coleta de informações -->
+    <div id="modalForm" class="modal hidden">
+        <div class="modal-content">
+            <h2>Informações da Sessão</h2>
+            <form id="sessionForm">
+                <label for="judgeName">Nome do Juiz(a) responsável:</label>
+                <input type="text" id="judgeName" name="judgeName" required placeholder="Nome completo">
+
+                <label for="judgeOffice">Lotação do Juiz(a):</label>
+                <input type="text" id="judgeOffice" name="judgeOffice" required placeholder="Ex: 1ª Vara Criminal">
+
+                <label for="secretaryName">Nome do secretário(a) judicial:</label>
+                <input type="text" id="secretaryName" name="secretaryName" required placeholder="Nome completo">
+
+                <label for="secretaryOffice">Lotação do secretário(a):</label>
+                <input type="text" id="secretaryOffice" name="secretaryOffice" required placeholder="Ex: Secretaria Criminal">
+
+                <label for="processNumber">Número do Processo:</label>
+                <input type="text" id="processNumber" name="processNumber" required placeholder="Ex: 1234567-89.2025.8.10.0001">
+
+                <label for="mpName">Nome do representante do Ministério Público:</label>
+                <input type="text" id="mpName" name="mpName" required placeholder="Nome completo">
+
+                <label for="defenseNames">Nome(s) do(s) advogado(s)/defensor(es):</label>
+                <textarea id="defenseNames" name="defenseNames" required placeholder="Insira os nomes, separados por vírgula"></textarea>
+
+                <label for="sessionDate">Data do sorteio:</label>
+                <input type="date" id="sessionDate" name="sessionDate" required>
+
+                <label for="sessionTime">Hora do sorteio:</label>
+                <input type="time" id="sessionTime" name="sessionTime" required>
+
+                <div class="modal-buttons">
+                    <button type="button" id="cancelButton">Cancelar</button>
+                    <button type="submit" id="generatePdfButton">Gerar PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 </body>
 </html>
