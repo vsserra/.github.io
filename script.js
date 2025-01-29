@@ -372,22 +372,20 @@ document.addEventListener('DOMContentLoaded', () => {
         doc.text(sessionData.sessionTime, 60, startY);
         startY += lineSpacing;
     
-        // Ajustar a linha divisória antes da tabela
         doc.line(10, startY, 200, startY);
     
         startY += lineSpacing;
-
+    
         // === Título da Lista de Jurados ===
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.text('Jurados Sorteados:', 10, startY);
         startY += lineSpacing;
-
+    
         doc.setFontSize(12);
         doc.setFont('helvetica', 'normal');
     
         // === Tabela de Jurados Sorteados ===
-        let y = startY + lineSpacing;
         const tableColumn = ['Nº', 'Nome do Jurado'];
         const tableRows = historico.map((jurado, index) => [index + 1, jurado]);
     
@@ -400,30 +398,40 @@ document.addEventListener('DOMContentLoaded', () => {
             margin: { top: 20 },
             styles: { fontSize: 11, cellPadding: 3 },
             didDrawPage: function (data) {
-              const pageHeight = doc.internal.pageSize.height;
-              doc.setFontSize(10);
-              doc.setTextColor(150);
-              doc.text('Relatório Gerado pelo site www.sorteiodejurados.com', 105, pageHeight - 10, { align: 'center' });
+                const pageHeight = doc.internal.pageSize.height;
+                doc.setFontSize(10);
+                doc.setTextColor(150);
+                doc.text('Relatório Gerado pelo site www.sorteiodejurados.com', 105, pageHeight - 10, { align: 'center' });
             },
-          });        
+        });
+    
+        // Obtém a última posição Y da tabela
+        let finalY = doc.lastAutoTable.finalY + 20;
+    
+        // Verifica o espaço disponível entre a tabela e o rodapé
+        const pageHeight = doc.internal.pageSize.height;
+        const rodapeY = pageHeight - 20; // Altura onde o rodapé está fixado
+        const minSignatureSpace = 40; // Espaço necessário para as assinaturas
+    
+        if (finalY + minSignatureSpace > rodapeY) {
+            // Adiciona uma nova página se não houver espaço suficiente
+            doc.addPage();
+            finalY = 20; // Reinicia a posição na nova página
+        }
     
         // === Rodapé com Assinaturas ===
-        const pageHeight = doc.internal.pageSize.height;
-        const signatureLineHeight = pageHeight - 40;
-        const signatureTextHeight = pageHeight - 35;
-    
         doc.setDrawColor(0);
     
         // Linha Juiz
-        doc.line(30, signatureLineHeight, 90, signatureLineHeight); 
-        doc.text('Juiz(a) Responsável', 60, signatureTextHeight, { align: 'center' });
+        doc.line(30, finalY, 90, finalY);
+        doc.text('Juiz(a) Responsável', 60, finalY + 5, { align: 'center' });
     
         // Linha Secretário
-        doc.line(120, signatureLineHeight, 180, signatureLineHeight); 
-        doc.text('Secretário(a) Judicial', 150, signatureTextHeight, { align: 'center' });
+        doc.line(120, finalY, 180, finalY);
+        doc.text('Secretário(a) Judicial', 150, finalY + 5, { align: 'center' });
     
         // Baixar o PDF
         doc.save('relatorio_sorteio.pdf');
-    } 
+    }        
     
 });
