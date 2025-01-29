@@ -58,20 +58,17 @@
         <div class="modal-content">
             <h2>Informações da Sessão</h2>
             <form id="sessionForm">
+                <label for="processNumber">Número do Processo:</label>
+                <input type="text" id="processNumber" name="processNumber" required placeholder="Ex: 1234567-89.2025.8.10.0001">
+
+                <label for="judicialUnit">Unidade Judicial:</label>
+                <input type="text" id="judicialUnit" name="judicialUnit" required placeholder="Ex: 1ª Vara Criminal"> 
+                
                 <label for="judgeName">Nome do Juiz(a) responsável:</label>
                 <input type="text" id="judgeName" name="judgeName" required placeholder="Nome completo">
 
-                <label for="judgeOffice">Lotação do Juiz(a):</label>
-                <input type="text" id="judgeOffice" name="judgeOffice" required placeholder="Ex: 1ª Vara Criminal">
-
                 <label for="secretaryName">Nome do secretário(a) judicial:</label>
-                <input type="text" id="secretaryName" name="secretaryName" required placeholder="Nome completo">
-
-                <label for="secretaryOffice">Lotação do secretário(a):</label>
-                <input type="text" id="secretaryOffice" name="secretaryOffice" required placeholder="Ex: Secretaria Criminal">
-
-                <label for="processNumber">Número do Processo:</label>
-                <input type="text" id="processNumber" name="processNumber" required placeholder="Ex: 1234567-89.2025.8.10.0001">
+                <input type="text" id="secretaryName" name="secretaryName" required placeholder="Nome completo">               
 
                 <label for="mpName">Nome do representante do Ministério Público:</label>
                 <input type="text" id="mpName" name="mpName" required placeholder="Nome completo">
