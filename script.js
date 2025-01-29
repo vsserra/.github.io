@@ -7,22 +7,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const quantidadeInput = document.getElementById('quantidadeInput');
     const sorteado = document.getElementById('sorteado');
     const sorteadoContainer = document.getElementById('sorteadoContainer');
-    const sorteadoTitulo = document.getElementById('sorteadoTitulo'); // Novo elemento
+    const sorteadoTitulo = document.getElementById('sorteadoTitulo');
     const historicoTitulo = document.getElementById('historicoTitulo');
     const historicoList = document.getElementById('historicoList');
     const downloadHistoricoButton = document.getElementById('downloadHistoricoButton');
     const historicoContainer = document.getElementById('historicoContainer');
     const historicoHeader = document.getElementById('historicoHeader');
-    const inputGroup = document.getElementById('inputGroup'); // Novo elemento
+    const inputGroup = document.getElementById('inputGroup');
+    const { jsPDF } = window.jspdf;
 
-    // Criação do Popup para mostrar as informações do arquivo
+    // Modais
+    const formatSelectModal = document.getElementById('formatSelectModal');
+    const closeFormatModal = document.getElementById('closeFormatModal');
+    const downloadCsvButton = document.getElementById('downloadCsvButton');
+    const downloadPdfButton = document.getElementById('downloadPdfButton');
+
+    const modalForm = document.getElementById('modalForm');
+    const cancelButton = document.getElementById('cancelButton');
+    const sessionForm = document.getElementById('sessionForm');
+
+    // Popup de conferência da urna
     const popupOverlay = document.createElement('div');
     const popupContent = document.createElement('div');
     const popupCloseButton = document.createElement('button');
 
     popupOverlay.classList.add('popup-overlay');
     popupContent.classList.add('popup-content');
-    popupCloseButton.textContent = 'Fechar';
+    popupCloseButton.textContent = 'Continuar';
     popupCloseButton.classList.add('popup-close');
 
     popupOverlay.appendChild(popupContent);
@@ -47,10 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.onload = (e) => {
                 const text = e.target.result;
                 jurados = text.split('\n').map(name => name.trim()).filter(name => name);
+    
+                // Embaralha os jurados usando Fisher-Yates
+                shuffleArray(jurados);
+    
                 juradosIniciais = [...jurados];
                 sorteioButton.disabled = jurados.length === 0;
                 fileLabel.textContent = file.name.length > 20 ? file.name.slice(0, 17) + '...' : file.name;
-
+    
                 if (jurados.length > 0) {
                     displayPopup(jurados);
                 }
@@ -61,6 +76,41 @@ document.addEventListener('DOMContentLoaded', () => {
             fileLabel.textContent = 'Selecionar arquivo CSV';
         }
     }
+
+    function handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file && file.type === 'text/csv') {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const text = e.target.result;
+                // Carrega os jurados na ordem original
+                juradosIniciais = text.split('\n').map(name => name.trim()).filter(name => name);
+    
+                // Cria a lista embaralhada para o sorteio
+                jurados = [...juradosIniciais];
+                shuffleArray(jurados);
+    
+                sorteioButton.disabled = jurados.length === 0;
+                fileLabel.textContent = file.name.length > 20 ? file.name.slice(0, 17) + '...' : file.name;
+    
+                if (juradosIniciais.length > 0) {
+                    displayPopup(juradosIniciais); // Exibe a lista original na conferência
+                }
+            };
+            reader.readAsText(file);
+        } else {
+            alert('Por favor, selecione um arquivo CSV válido.');
+            fileLabel.textContent = 'Selecionar arquivo CSV';
+        }
+    }
+    
+    // Função de embaralhamento Fisher-Yates
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }    
 
     fileInput.addEventListener('change', handleFileChange);
 
@@ -113,17 +163,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     sorteioButton.addEventListener('click', () => {
         const quantidade = parseInt(quantidadeInput.value) || 1;
+    
+        // Verifica se a quantidade solicitada é maior do que a quantidade de jurados disponíveis
+        if (quantidade > jurados.length) {
+            alert(`Não é possível sortear mais jurados do que os disponíveis na lista. Há apenas ${jurados.length} jurados.`);
+            return; // Impede o sorteio se a quantidade for maior
+        }
+    
         if (jurados.length > 0) {
             sorteadoContainer.classList.remove('hidden');
             reiniciarButton.classList.remove('hidden');
-            sorteadoTitulo.classList.remove('hidden'); // Exibir título
+            sorteadoTitulo.classList.remove('hidden');
             historicoHeader.classList.remove('hidden');
             toggleHistoricoButton.classList.remove('hidden');
-            if (toggleHistoricoButton.textContent === '+') {
-                historicoTitulo.classList.add('hidden'); // Manter o título do histórico oculto
-            }
-            inputGroup.classList.add('hidden'); // Ocultar grupo de inputs
-
+            inputGroup.classList.add('hidden');
+    
             const sorteados = [];
             for (let i = 0; i < quantidade; i++) {
                 if (jurados.length > 0) {
@@ -135,14 +189,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
                 }
             }
-            sorteado.innerHTML = sorteados.join('<br>'); // Usar <br> para quebras de linha
+            sorteado.innerHTML = sorteados.join('<br>');
             updateHistorico();
             sorteioButton.disabled = jurados.length === 0;
             downloadHistoricoButton.disabled = false;
         } else {
             sorteado.textContent = 'Não há mais jurados para sortear.';
         }
-    });
+    });    
 
     reiniciarButton.addEventListener('click', () => {
         jurados = [];
@@ -150,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         historico = [];
         sorteado.textContent = '';
         sorteadoContainer.classList.add('hidden');
-        sorteadoTitulo.classList.add('hidden'); // Ocultar título
+        sorteadoTitulo.classList.add('hidden');
         historicoTitulo.classList.add('hidden');
         historicoContainer.classList.add('hidden');
         downloadHistoricoButton.classList.add('hidden');
@@ -159,31 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleHistoricoButton.classList.add('hidden');
         toggleHistoricoButton.textContent = '+';
         sorteioButton.disabled = true;
-        quantidadeInput.value = ''; // Limpar o input de quantidade de jurados
+        quantidadeInput.value = '';
 
-        // Limpar o valor do input de arquivo
         fileInput.value = '';
-        fileLabel.textContent = 'Selecionar arquivo CSV'; // Redefinir o texto do rótulo do arquivo
+        fileLabel.textContent = 'Selecionar arquivo CSV';
 
-        // Remover o evento de mudança do input antigo
-        fileInput.removeEventListener('change', handleFileChange);
-
-        // Criar um novo input de arquivo
-        const newFileInput = document.createElement('input');
-        newFileInput.type = 'file';
-        newFileInput.id = 'fileInput';
-        newFileInput.accept = '.csv';
-        newFileInput.setAttribute('aria-label', 'Selecione um arquivo CSV com a lista de jurados');
-
-        // Substituir o input antigo pelo novo
-        fileInput.parentNode.replaceChild(newFileInput, fileInput);
-
-        // Atualizar a referência do fileInput e adicionar o evento change
-        fileInput = document.getElementById('fileInput');
-        fileInput.addEventListener('change', handleFileChange);
-
-        inputGroup.classList.remove('hidden'); // Mostrar grupo de inputs
-
+        inputGroup.classList.remove('hidden');
         updateHistorico();
     });
 
@@ -201,8 +236,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    downloadHistoricoButton.addEventListener('click', () => {
-        const csvContent = "﻿" + historico.join("\n"); // Adicionado BOM para UTF-8
+    function updateHistorico() {
+        historicoList.innerHTML = "";
+        historico.forEach(jurado => {
+            const li = document.createElement('li');
+            li.textContent = jurado;
+            historicoList.appendChild(li);
+        });
+    }
+
+    // Modal de seleção de formato
+    function openFormatSelectModal() {
+        formatSelectModal.classList.remove('hidden');
+    }
+
+    function closeFormatSelectModal() {
+        formatSelectModal.classList.add('hidden');
+    }
+
+    document.getElementById('downloadHistoricoButton').addEventListener('click', openFormatSelectModal);
+    closeFormatModal.addEventListener('click', closeFormatSelectModal);
+
+    downloadCsvButton.addEventListener('click', () => {
+        closeFormatSelectModal();
+        downloadCsv();
+    });
+
+    downloadPdfButton.addEventListener('click', () => {
+        closeFormatSelectModal();
+        openModal();
+    });
+
+    // Função de download de CSV
+    function downloadCsv() {
+        const csvContent = "﻿" + historico.join("\n");
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement("a");
         const url = URL.createObjectURL(blob);
@@ -211,19 +278,142 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    // Modal de coleta de informações
+    function openModal() {
+        modalForm.classList.remove('hidden');
+    }
+
+    function closeModal() {
+        modalForm.classList.add('hidden');
+    }
+
+    cancelButton.addEventListener('click', closeModal);
+
+    sessionForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(sessionForm);
+        const sessionData = {
+            judgeName: formData.get('judgeName'),
+            judgeOffice: formData.get('judgeOffice'),
+            secretaryName: formData.get('secretaryName'),
+            secretaryOffice: formData.get('secretaryOffice'),
+            processNumber: formData.get('processNumber'),
+            mpName: formData.get('mpName'),
+            defenseNames: formData.get('defenseNames'),
+            sessionDate: formData.get('sessionDate'),
+            sessionTime: formData.get('sessionTime'),
+        };
+
+        closeModal();
+        generatePdf(sessionData);
     });
 
-    function updateHistorico() {
-        historicoList.innerHTML = "";
-        historico.forEach(jurado => {
-            const li = document.createElement('li');
-            li.textContent = jurado;
-            historicoList.appendChild(li);
-        });
-        scrollToBottom(historicoContainer);
-    }
-
-    function scrollToBottom(element) {
-        element.scrollTop = element.scrollHeight;
-    }
+    function generatePdf(sessionData) {
+        const doc = new jsPDF();
+    
+        // === Cabeçalho ===
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.text('Sorteio de Jurados - Relatório', 105, 20, { align: 'center' });
+        doc.setFontSize(14);
+        doc.text(`Comarca: ${sessionData.judgeOffice}`, 105, 28, { align: 'center' });
+    
+        // Linha divisória abaixo do título
+        doc.setDrawColor(0);
+        doc.line(10, 35, 200, 35);
+    
+        // === Informações da Sessão (Com negrito na primeira parte) ===
+        doc.setFontSize(12);
+    
+        let startY = 45;
+        const lineSpacing = 8; // Espaçamento reduzido entre as linhas
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Juiz(a) Responsável:', 10, startY);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.judgeName, 60, startY);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Secretário(a):', 10, startY + lineSpacing);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.secretaryName, 60, startY + lineSpacing);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Número do Processo:', 10, startY + lineSpacing * 2);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.processNumber, 60, startY + lineSpacing * 2);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Representante do MP:', 10, startY + lineSpacing * 3);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.mpName, 60, startY + lineSpacing * 3);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Defesa:', 10, startY + lineSpacing * 4);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.defenseNames, 60, startY + lineSpacing * 4);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Data do Sorteio:', 10, startY + lineSpacing * 5);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.sessionDate, 60, startY + lineSpacing * 5);
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Hora do Sorteio:', 10, startY + lineSpacing * 6);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.sessionTime, 60, startY + lineSpacing * 6);
+    
+        // Linha divisória antes da tabela
+        doc.line(10, startY + lineSpacing * 7, 200, startY + lineSpacing * 7);
+    
+        // === Título da Lista de Jurados ===
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Jurados Sorteados:', 10, startY + lineSpacing * 8);
+        
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'normal');
+    
+        // === Tabela de Jurados Sorteados ===
+        let y = startY + lineSpacing * 9;
+        const tableColumn = ['Nº', 'Nome do Jurado'];
+        const tableRows = historico.map((jurado, index) => [index + 1, jurado]);
+    
+        doc.autoTable({
+            startY: y,
+            head: [tableColumn],
+            body: tableRows,
+            theme: 'striped',  // Estilo mais profissional
+            headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }, // Cor ajustada
+            margin: { top: 20 }, // Diminui o espaçamento no topo da nova página
+            styles: { fontSize: 11, cellPadding: 3 },
+            didDrawPage: function (data) {
+                const pageHeight = doc.internal.pageSize.height;
+                doc.setFontSize(10);
+                doc.setTextColor(150);
+                doc.text('Relatório Gerado pelo site www.sorteiodejurados.com', 105, pageHeight - 10, { align: 'center' });
+            },
+        });        
+    
+        // === Rodapé com Assinaturas ===
+        const pageHeight = doc.internal.pageSize.height;
+        const signatureLineHeight = pageHeight - 40;
+        const signatureTextHeight = pageHeight - 35;
+    
+        doc.setDrawColor(0);
+    
+        // Linha Juiz
+        doc.line(30, signatureLineHeight, 90, signatureLineHeight); 
+        doc.text('Juiz(a) Responsável', 60, signatureTextHeight, { align: 'center' });
+    
+        // Linha Secretário
+        doc.line(120, signatureLineHeight, 180, signatureLineHeight); 
+        doc.text('Secretário(a) Judicial', 150, signatureTextHeight, { align: 'center' });
+    
+        // Baixar o PDF
+        doc.save('relatorio_sorteio.pdf');
+    } 
+    
 });
