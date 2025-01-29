@@ -247,13 +247,23 @@ li {
 
 .modal-content {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 100%;
+    padding: 20px; /* Um pouco mais de espaço interno */
+    border-radius: 10px; /* Bordas um pouco mais suaves */
+    max-width: 85%;  /* Permite um pouco mais de largura */
+    width: 500px;  /* Aumenta a largura fixa */
+    max-height: 85vh; /* Aumenta a altura para 75% da tela */
+    overflow-y: auto; /* Mantém rolagem caso necessário */
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     animation: fadeIn 0.3s ease;
+}
+
+/* Ajuste para telas menores */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;  /* Expande um pouco mais para melhor aproveitamento */
+        max-height: 80vh; /* Dá um pouco mais de espaço em telas pequenas */
+    }
 }
 
 .modal-content h2 {
