@@ -225,6 +225,171 @@ li {
     }
 }
 
+/* Estilos do modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.modal.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.modal-buttons #downloadCsvButton {
+    background-color: #007BFF;
+    color: white;
+}
+
+.modal-buttons #downloadCsvButton:hover {
+    background-color: #0056b3;
+}
+
+.modal-buttons #downloadPdfButton {
+    background-color: #28a745;
+    color: white;
+}
+
+.modal-buttons #downloadPdfButton:hover {
+    background-color: #218838;
+}
+
+#cancelButton {
+    background-color: #ccc;
+    color: #333;
+}
+
+#closeFormatModal {
+    margin: 20px auto 0; /* Espaço acima e centralização horizontal */
+    width: 150px; /* Define um tamanho fixo ou ajustável */
+    text-align: center; /* Centraliza o texto dentro do botão */
+}
+
+#generatePdfButton {
+    background-color: #007BFF;
+    color: #fff;
+}
+
+/* === Estilos do modal de Informações da Sessão === */
+#modalForm .modal-content label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+#modalForm .modal-content input,
+#modalForm .modal-content textarea {
+    font-family: 'Roboto', sans-serif;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+#modalForm .modal-content input:focus,
+#modalForm .modal-content textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+#modalForm .modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* === Estilos do modal de Escolha do Formato do Arquivo === */
+#formatSelectModal .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#formatSelectModal .modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilizando os botões individuais */
+#formatSelectModal #downloadCsvButton {
+    background-color: #007BFF;
+    color: white;
+}
+
+#formatSelectModal #downloadCsvButton:hover {
+    background-color: #0056b3;
+}
+
+#formatSelectModal #downloadPdfButton {
+    background-color: #28a745;
+    color: white;
+}
+
+#formatSelectModal #downloadPdfButton:hover {
+    background-color: #218838;
+}
+
+
 /* CSS para o popup */
 .popup-overlay {
     position: fixed;
@@ -290,4 +455,51 @@ li {
 
 .popup-close:hover {
     background-color: #0056b3;
+}
+
+.background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.shape {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+}
+
+.shape:nth-child(1) {
+    top: 10%;
+    left: 20%;
+    animation-duration: 7s;
+}
+
+.shape:nth-child(2) {
+    top: 50%;
+    left: 10%;
+    animation-duration: 5s;
+}
+
+.shape:nth-child(3) {
+    top: 70%;
+    left: 60%;
+    animation-duration: 9s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
