@@ -295,16 +295,15 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const formData = new FormData(sessionForm);
         const sessionData = {
-            judgeName: formData.get('judgeName'),
-            judgeOffice: formData.get('judgeOffice'),
-            secretaryName: formData.get('secretaryName'),
-            secretaryOffice: formData.get('secretaryOffice'),
             processNumber: formData.get('processNumber'),
+            judicialUnit: formData.get('judicialUnit'), // Nova chave para unidade judicial
+            judgeName: formData.get('judgeName'),
+            secretaryName: formData.get('secretaryName'),
             mpName: formData.get('mpName'),
             defenseNames: formData.get('defenseNames'),
             sessionDate: formData.get('sessionDate'),
             sessionTime: formData.get('sessionTime'),
-        };
+        };        
 
         closeModal();
         generatePdf(sessionData);
@@ -313,89 +312,100 @@ document.addEventListener('DOMContentLoaded', () => {
     function generatePdf(sessionData) {
         const doc = new jsPDF();
     
-        // === Cabeçalho ===
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(18);
         doc.text('Sorteio de Jurados - Relatório', 105, 20, { align: 'center' });
         doc.setFontSize(14);
-        doc.text(`Comarca: ${sessionData.judgeOffice}`, 105, 28, { align: 'center' });
+        doc.text(`Unidade Judicial: ${sessionData.judicialUnit}`, 105, 28, { align: 'center' });
     
-        // Linha divisória abaixo do título
-        doc.setDrawColor(0);
         doc.line(10, 35, 200, 35);
     
-        // === Informações da Sessão (Com negrito na primeira parte) ===
         doc.setFontSize(12);
-    
         let startY = 45;
-        const lineSpacing = 8; // Espaçamento reduzido entre as linhas
+        const lineSpacing = 8;
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Unidade Judicial:', 10, startY);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.judicialUnit, 60, startY);
+        startY += lineSpacing;
+    
+        doc.setFont('helvetica', 'bold');
+        doc.text('Número do Processo:', 10, startY);
+        doc.setFont('helvetica', 'normal');
+        doc.text(sessionData.processNumber, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
         doc.text('Juiz(a) Responsável:', 10, startY);
         doc.setFont('helvetica', 'normal');
         doc.text(sessionData.judgeName, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
-        doc.text('Secretário(a):', 10, startY + lineSpacing);
+        doc.text('Secretário(a):', 10, startY);
         doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.secretaryName, 60, startY + lineSpacing);
+        doc.text(sessionData.secretaryName, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
-        doc.text('Número do Processo:', 10, startY + lineSpacing * 2);
+        doc.text('Representante do MP:', 10, startY);
         doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.processNumber, 60, startY + lineSpacing * 2);
+        doc.text(sessionData.mpName, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
-        doc.text('Representante do MP:', 10, startY + lineSpacing * 3);
+        doc.text('Defesa:', 10, startY);
         doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.mpName, 60, startY + lineSpacing * 3);
+        doc.text(sessionData.defenseNames, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
-        doc.text('Defesa:', 10, startY + lineSpacing * 4);
+        doc.text('Data do Sorteio:', 10, startY);
         doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.defenseNames, 60, startY + lineSpacing * 4);
+        doc.text(sessionData.sessionDate, 60, startY);
+        startY += lineSpacing;
     
         doc.setFont('helvetica', 'bold');
-        doc.text('Data do Sorteio:', 10, startY + lineSpacing * 5);
+        doc.text('Hora do Sorteio:', 10, startY);
         doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.sessionDate, 60, startY + lineSpacing * 5);
+        doc.text(sessionData.sessionTime, 60, startY);
+        startY += lineSpacing;
     
-        doc.setFont('helvetica', 'bold');
-        doc.text('Hora do Sorteio:', 10, startY + lineSpacing * 6);
-        doc.setFont('helvetica', 'normal');
-        doc.text(sessionData.sessionTime, 60, startY + lineSpacing * 6);
+        // Ajustar a linha divisória antes da tabela
+        doc.line(10, startY, 200, startY);
     
-        // Linha divisória antes da tabela
-        doc.line(10, startY + lineSpacing * 7, 200, startY + lineSpacing * 7);
-    
+        startY += lineSpacing;
+
         // === Título da Lista de Jurados ===
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
-        doc.text('Jurados Sorteados:', 10, startY + lineSpacing * 8);
-        
+        doc.text('Jurados Sorteados:', 10, startY);
+        startY += lineSpacing;
+
         doc.setFontSize(12);
         doc.setFont('helvetica', 'normal');
     
         // === Tabela de Jurados Sorteados ===
-        let y = startY + lineSpacing * 9;
+        let y = startY + lineSpacing;
         const tableColumn = ['Nº', 'Nome do Jurado'];
         const tableRows = historico.map((jurado, index) => [index + 1, jurado]);
     
         doc.autoTable({
-            startY: y,
+            startY: startY,
             head: [tableColumn],
             body: tableRows,
-            theme: 'striped',  // Estilo mais profissional
-            headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }, // Cor ajustada
-            margin: { top: 20 }, // Diminui o espaçamento no topo da nova página
+            theme: 'striped',
+            headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] },
+            margin: { top: 20 },
             styles: { fontSize: 11, cellPadding: 3 },
             didDrawPage: function (data) {
-                const pageHeight = doc.internal.pageSize.height;
-                doc.setFontSize(10);
-                doc.setTextColor(150);
-                doc.text('Relatório Gerado pelo site www.sorteiodejurados.com', 105, pageHeight - 10, { align: 'center' });
+              const pageHeight = doc.internal.pageSize.height;
+              doc.setFontSize(10);
+              doc.setTextColor(150);
+              doc.text('Relatório Gerado pelo site www.sorteiodejurados.com', 105, pageHeight - 10, { align: 'center' });
             },
-        });        
+          });        
     
         // === Rodapé com Assinaturas ===
         const pageHeight = doc.internal.pageSize.height;
