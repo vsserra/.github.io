@@ -66,7 +66,7 @@
             padding: 40px;
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
+            max-width: 600px;
             width: 90%;
             animation: fadeIn 1s ease-in-out;
             position: relative;
@@ -79,26 +79,31 @@
         h1 {
             color: #333;
             font-size: 2em;
+            margin-bottom: 15px;
         }
         p {
             color: #666;
             font-size: 1.1em;
             margin-bottom: 20px;
+            line-height: 1.5;
         }
         .btn {
             background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
+            padding: 12px 25px;
+            border-radius: 30px;
             cursor: pointer;
             text-decoration: none;
             font-size: 1em;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .btn:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
         @keyframes fadeIn {
             from {
@@ -116,22 +121,24 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                height: 100vh;
+                height: auto;
+                padding: 10px;
             }
             .container {
                 padding: 20px;
-                max-width: 90%;
+                max-width: 95%;
                 height: auto;
             }
             h1 {
-                font-size: 1.8em;
+                font-size: 1.6em;
             }
             p {
                 font-size: 1em;
+                padding: 0 15px;
             }
             .btn {
                 font-size: 0.9em;
-                padding: 8px 16px;
+                padding: 10px 18px;
             }
         }
     </style>
@@ -144,9 +151,9 @@
     </div>
     <div class="container">
         <h1>Acesso Restrito</h1>
-        <p>O Sorteador de Jurados está disponível apenas em computadores e iPads.</p>
-        <p>Devido a limitações técnicas e financeiras, não foi possível adequar o funcionamento da aplicação de forma ideal para dispositivos móveis, com exceção dos iPads.</p>
-        <p>Para continuar, acesse pelo seu computador ou iPad.</p>
+        <p>Olá! Percebemos que você está tentando acessar nosso sistema a partir de um dispositivo móvel.</p>
+        <p>No momento, nossa plataforma está totalmente otimizada para computadores e iPads. Devido a algumas limitações técnicas e financeiras, ainda não conseguimos garantir a melhor experiência em todos os celulares.</p>
+        <p>Para utilizar todas as funcionalidades do sistema, por favor, acesse a partir de um computador ou iPad.</p>
         <a href="index.html" class="btn">Voltar à Página Inicial</a>
     </div>
 </body>
