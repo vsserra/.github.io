@@ -16,6 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputGroup = document.getElementById('inputGroup');
     const { jsPDF } = window.jspdf;
 
+    const contadorJurados = document.getElementById('contadorJurados');
+    const quantidadeRestante = document.getElementById('quantidadeRestante');
+
+    function atualizarContador() {
+        quantidadeRestante.textContent = jurados.length;
+        contadorJurados.classList.toggle('hidden', jurados.length === 0);
+    } 
+
     // Modais
     const formatSelectModal = document.getElementById('formatSelectModal');
     const closeFormatModal = document.getElementById('closeFormatModal');
@@ -57,32 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const reader = new FileReader();
             reader.onload = (e) => {
                 const text = e.target.result;
-                jurados = text.split('\n').map(name => name.trim()).filter(name => name);
-    
-                // Embaralha os jurados usando Fisher-Yates
-                shuffleArray(jurados);
-    
-                juradosIniciais = [...jurados];
-                sorteioButton.disabled = jurados.length === 0;
-                fileLabel.textContent = file.name.length > 20 ? file.name.slice(0, 17) + '...' : file.name;
-    
-                if (jurados.length > 0) {
-                    displayPopup(jurados);
-                }
-            };
-            reader.readAsText(file);
-        } else {
-            alert('Por favor, selecione um arquivo CSV válido.');
-            fileLabel.textContent = 'Selecionar arquivo CSV';
-        }
-    }
-
-    function handleFileChange(event) {
-        const file = event.target.files[0];
-        if (file && file.type === 'text/csv') {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const text = e.target.result;
                 // Carrega os jurados na ordem original
                 juradosIniciais = text.split('\n').map(name => name.trim()).filter(name => name);
     
@@ -96,13 +78,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (juradosIniciais.length > 0) {
                     displayPopup(juradosIniciais); // Exibe a lista original na conferência
                 }
+    
+                atualizarContador(); // Atualiza o contador de jurados restantes
             };
             reader.readAsText(file);
         } else {
             alert('Por favor, selecione um arquivo CSV válido.');
             fileLabel.textContent = 'Selecionar arquivo CSV';
         }
-    }
+    }    
     
     // Função de embaralhamento Fisher-Yates
     function shuffleArray(array) {
@@ -164,18 +148,18 @@ document.addEventListener('DOMContentLoaded', () => {
     sorteioButton.addEventListener('click', () => {
         const quantidade = parseInt(quantidadeInput.value) || 1;
     
-        // Verifica se a quantidade solicitada é maior do que a quantidade de jurados disponíveis
         if (quantidade > jurados.length) {
             alert(`Não é possível sortear mais jurados do que os disponíveis na lista. Há apenas ${jurados.length} jurados.`);
-            return; // Impede o sorteio se a quantidade for maior
+            return;
         }
     
         if (jurados.length > 0) {
             sorteadoContainer.classList.remove('hidden');
             reiniciarButton.classList.remove('hidden');
             sorteadoTitulo.classList.remove('hidden');
-            historicoHeader.classList.remove('hidden');
-            toggleHistoricoButton.classList.remove('hidden');
+            historicoHeader.classList.remove('hidden'); // Apenas a barra com o botão "+" aparece
+            toggleHistoricoButton.classList.remove('hidden'); // O botão "+" aparece
+            historicoTitulo.classList.add('hidden'); // Garante que o título NÃO apareça automaticamente
             inputGroup.classList.add('hidden');
     
             const sorteados = [];
@@ -193,48 +177,53 @@ document.addEventListener('DOMContentLoaded', () => {
             updateHistorico();
             sorteioButton.disabled = jurados.length === 0;
             downloadHistoricoButton.disabled = false;
+    
+            atualizarContador();
         } else {
             sorteado.textContent = 'Não há mais jurados para sortear.';
         }
-    });    
+    });            
 
     reiniciarButton.addEventListener('click', () => {
         jurados = [];
         juradosIniciais = [];
         historico = [];
         sorteado.textContent = '';
+    
         sorteadoContainer.classList.add('hidden');
         sorteadoTitulo.classList.add('hidden');
-        historicoTitulo.classList.add('hidden');
+        historicoTitulo.classList.add('hidden'); // Agora sempre oculta ao reiniciar
         historicoContainer.classList.add('hidden');
         downloadHistoricoButton.classList.add('hidden');
         reiniciarButton.classList.add('hidden');
         historicoHeader.classList.add('hidden');
         toggleHistoricoButton.classList.add('hidden');
         toggleHistoricoButton.textContent = '+';
+    
         sorteioButton.disabled = true;
         quantidadeInput.value = '';
-
         fileInput.value = '';
         fileLabel.textContent = 'Selecionar arquivo CSV';
-
+    
         inputGroup.classList.remove('hidden');
+    
         updateHistorico();
-    });
+        atualizarContador();
+    });            
 
     toggleHistoricoButton.addEventListener('click', () => {
         if (historicoContainer.classList.contains('hidden')) {
             historicoContainer.classList.remove('hidden');
-            historicoTitulo.classList.remove('hidden');
+            historicoTitulo.classList.remove('hidden'); // Só aparece ao clicar no botão "+"
             downloadHistoricoButton.classList.remove('hidden');
             toggleHistoricoButton.textContent = '-';
         } else {
             historicoContainer.classList.add('hidden');
-            historicoTitulo.classList.add('hidden');
+            historicoTitulo.classList.add('hidden'); // Oculta novamente ao clicar "-"
             downloadHistoricoButton.classList.add('hidden');
             toggleHistoricoButton.textContent = '+';
         }
-    });
+    });        
 
     function updateHistorico() {
         historicoList.innerHTML = "";
