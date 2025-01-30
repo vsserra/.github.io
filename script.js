@@ -395,32 +395,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         // Obtém a última posição Y da tabela
-        let finalY = doc.lastAutoTable.finalY + 20;
-    
-        // Verifica o espaço disponível entre a tabela e o rodapé
+        let finalY = doc.lastAutoTable.finalY;
+
+        // Calcula o espaço disponível na página
         const pageHeight = doc.internal.pageSize.height;
-        const rodapeY = pageHeight - 20; // Altura onde o rodapé está fixado
+        const availableSpace = pageHeight - finalY - 20; // Espaço disponível após a tabela
         const minSignatureSpace = 40; // Espaço necessário para as assinaturas
-    
-        if (finalY + minSignatureSpace > rodapeY) {
-            // Adiciona uma nova página se não houver espaço suficiente
+
+        // === Verifica se as assinaturas cabem na mesma página ===
+        if (availableSpace < minSignatureSpace) {
             doc.addPage();
-            finalY = 20; // Reinicia a posição na nova página
+            finalY = 20; // Define um novo Y no topo da página
+        } else {
+            finalY += 10; // Move um pouco para baixo se houver espaço
         }
-    
+
         // === Rodapé com Assinaturas ===
         doc.setDrawColor(0);
-    
+
         // Linha Juiz
         doc.line(30, finalY, 90, finalY);
         doc.text('Juiz(a) Responsável', 60, finalY + 5, { align: 'center' });
-    
+
         // Linha Secretário
         doc.line(120, finalY, 180, finalY);
         doc.text('Secretário(a) Judicial', 150, finalY + 5, { align: 'center' });
-    
+
         // Baixar o PDF
         doc.save('relatorio_sorteio.pdf');
     }        
-    
 });
