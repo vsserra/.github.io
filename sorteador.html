@@ -23,6 +23,7 @@
             <input type="file" id="fileInput" accept=".csv" aria-label="Selecione um arquivo CSV com a lista de jurados">
             <input type="number" id="quantidadeInput" placeholder="Qtd" min="1" aria-label="Quantidade de jurados a sortear">
         </div>
+        <p id="contadorJurados" class="contador-jurados hidden">Jurados restantes: <span id="quantidadeRestante"></span></p>
         <div class="button-group">
             <button id="sorteioButton" disabled>Sortear</button>
             <button id="reiniciarButton" class="hidden">Reiniciar</button>
